@@ -123,3 +123,4 @@ export const fetchProducts = (product_ids) => async dispatch => {
         dispatch(requestProductsFailure(error))
     }
 }
+

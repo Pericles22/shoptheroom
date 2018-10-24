@@ -19,3 +19,4 @@ export default {
     REQUEST_PRODUCTS_FAILURE,
     REQUEST_PRODUCTS
 }
+
