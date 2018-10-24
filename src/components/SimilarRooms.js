@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
 import Room from './Room'
 
@@ -18,18 +18,37 @@ function randomizeRooms(mediaItem, rooms) {
         randomized[randomIndex] = temporaryValue
     }
     
-    return randomized.filter(room => room.id !== mediaItem.id)
+    return randomized.filter(room => room.id !== mediaItem.id).slice(0,6)
 }
 
-export default ({mediaItem, rooms, updateFeaturedRoom}) => {
-    return (
-        <SimilarWrapper>
-            <Title>Rooms You Might Like</Title>
-            <Rooms>
-                {randomizeRooms(mediaItem, rooms).slice(0,6).map((rm, idx) => <Room room={rm} index={idx} updateFeaturedRoom={updateFeaturedRoom}></Room>)}
-            </Rooms>
-        </SimilarWrapper>
-    )
+export default class SimilarRooms extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            randomRooms: []
+        }
+    }
+
+    componentWillReceiveProps(next) {
+        const { mediaItem, rooms } = next
+        
+        if((!this.props.rooms || !this.props.rooms.length) && rooms && rooms.length)
+            this.setState({randomRooms: randomizeRooms(mediaItem, rooms)})
+    }
+
+    render() {
+        const { props: { updateFeaturedRoom }, state: { randomRooms } } = this
+
+        return (
+            <SimilarWrapper>
+                <Title>Rooms You Might Like</Title>
+                <Rooms>
+                    {randomRooms.map((rm, idx) => <Room room={rm} index={idx} updateFeaturedRoom={updateFeaturedRoom}></Room>)}
+                </Rooms>
+            </SimilarWrapper>
+        )
+    }
 }
 
 const SimilarWrapper = styled.div`

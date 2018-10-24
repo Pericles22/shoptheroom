@@ -1,7 +1,5 @@
-import React, { createRef, Component } from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
-
-import Popup from './Popup'
 
 export default class Location extends Component {
     constructor(props) {
@@ -16,17 +14,16 @@ export default class Location extends Component {
     }
 
     render() {
-        const { props: { id, product, visible }, handleClick } = this
-        const { spatialTag } = product
-        const { x, y } = spatialTag
-        const offsetX = x >= .9 ? '-100%' : (x <= .1 ? 0 : '-50%')
-        const offsetY = y >= .9 ? '-100%' : (y <= .1 ? 0 : '-50%')
+        const { props: { coords, product }, handleClick } = this
+        const { x, y } = coords
+        const offsetX = x >= .9 ? '-50%' : (x <= .1 ? 0 : '-50%')
+        const offsetY = y >= .9 ? '-50%' : (y <= .1 ? 0 : '-50%')
 
+        if(!product) return <div></div>
         return (
-            <Wrapper onClick={handleClick} offsetX={offsetX} offsetY={offsetY} coords={spatialTag}>
+            <Wrapper onClick={handleClick} offsetX={offsetX} offsetY={offsetY} coords={{x, y}}>
                 <InnerCircle></InnerCircle>
                 <Loc type="radio"></Loc>
-                <Popup product={product} visible={visible === id} />
             </Wrapper>
         )
     }
@@ -42,8 +39,8 @@ const Wrapper = styled.div`
     max-height: 10vw;
     max-width: 10vw;
     position: absolute;
-    top: ${props => props.coords.y * 100}%;
-    left: ${props => props.coords.x * 100}%;
+    top: ${props => (props.coords ? props.coords.y : 1) * 100}%;
+    left: ${props => (props.coords ? props.coords.x : 1) * 100}%;
     transform: translateX(${props => props.offsetX}) translateY(${props => props.offsetY});
     width: 40px;
     height: 40px;

@@ -24,6 +24,7 @@ class Main extends Component {
 
     componentWillReceiveProps(next) {
         let newMediaItem = Object.keys(next.mediaItem).length && !Object.keys(this.props.mediaItem).length
+
         if(newMediaItem) {
             this.props.fetchSimilarRooms(next.mediaItem.labels)
             this.props.fetchProducts(next.mediaItem.products.map(prod => prod.metadata.productId))
@@ -35,7 +36,6 @@ class Main extends Component {
         const { savings, sellingPrice } = options[0]
         const oldPrice = savings && savings !== '$0.00' ? (Number(savings.slice(1).replace(/,/g, '')) + Number(sellingPrice.slice(1).replace(/,/g, ''))).toFixed(2) : null
         
-
         return (
             <StyledSlide target="_blank" href={link} innerMargin={dimensions.innerMargin}>
                 <ImageWrapper>
@@ -64,7 +64,7 @@ class Main extends Component {
 
         return (
             <PageWrapper onClick={updateLocation}>
-                <Hero visible={activeLocation} data={mediaItem} products={products} updateLocation={updateLocation} />
+                <Hero visible={activeLocation} data={mediaItem} products={roomProducts} updateLocation={updateLocation} />
                 <Icons />
                 <InnerWrapper>
                     <CarouselMod renderSlide={renderSlide} slides={roomProducts} />

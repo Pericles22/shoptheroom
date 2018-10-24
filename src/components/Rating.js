@@ -10,6 +10,7 @@ const renderStars = () => {
 
 export default ({count, rating}) => (
     <RatingWrapper>
+        <Count>{count} reviews</Count>
         <StarWrapper>
             <StarContainer>
                 {renderStars()}
@@ -20,18 +21,20 @@ export default ({count, rating}) => (
                 </FilledStarContainer>
             </Front>
         </StarWrapper>
-        <Count>{count}</Count>
     </RatingWrapper>
 )
 
 export const Count = styled.span`
+    color: #258a9c;
+    font-size: 10px;
     margin-left: 4px;
 `
 
 export const RatingWrapper = styled.div`
     align-items: center;
     display: flex;
-    margin-top: 8px;
+    justify-content: space-between;
+    margin-top: 6px;
 `
 
 export const StarWrapper = styled.div`
